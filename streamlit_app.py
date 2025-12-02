@@ -308,7 +308,7 @@ DIVD F10, F0, F6
 ADDD F6, F8, F2
 """
 
-MEM_ADDR_RE = re.compile(r"^\\s*(-?\\d+)\\((\\w+)\\)\\s*$")
+MEM_ADDR_RE = re.compile(r"^\s*(-?\d+)\((\w+)\)\s*$")
 ALLOWED_PREFIXES = ("LD", "ST", "SD", "AD", "SU", "MU", "DI")
 
 
