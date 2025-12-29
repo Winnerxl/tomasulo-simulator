@@ -560,7 +560,7 @@ def render_instruction_editor() -> None:
             replace_simulator(SAMPLE_PROGRAM_TEXT.strip())
             st.rerun()
 
-    with st.expander("📖 Instruction Format Reference", expanded=False):
+    with st.expander("Instruction Format Reference", expanded=False):
         st.markdown("""
         ### Supported Instructions
         
