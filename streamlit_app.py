@@ -560,6 +560,66 @@ def render_instruction_editor() -> None:
             replace_simulator(SAMPLE_PROGRAM_TEXT.strip())
             st.rerun()
 
+    with st.expander("📖 Instruction Format Reference", expanded=False):
+        st.markdown("""
+        ### Supported Instructions
+        
+        #### Memory Operations
+        - **Load**: `LD <dest>, <offset>(<base>)`
+          - Example: `LD F6, 34(R2)` — Load from memory address (R2 + 34) into F6
+          - Latency: Configurable (default: 2 cycles)
+        
+        - **Store**: `SD <src>, <offset>(<base>)` or `ST <src>, <offset>(<base>)`
+          - Example: `SD F6, 34(R2)` — Store F6 to memory address (R2 + 34)
+          - Latency: Configurable (default: 2 cycles)
+        
+        #### Arithmetic Operations
+        - **Add**: `ADDD <dest>, <src1>, <src2>`
+          - Example: `ADDD F6, F2, F4` — F6 = F2 + F4
+          - Latency: Configurable (default: 2 cycles)
+        
+        - **Subtract**: `SUBD <dest>, <src1>, <src2>`
+          - Example: `SUBD F8, F6, F2` — F8 = F6 - F2
+          - Latency: Configurable (default: 2 cycles)
+        
+        - **Multiply**: `MULTD <dest>, <src1>, <src2>`
+          - Example: `MULTD F0, F2, F4` — F0 = F2 × F4
+          - Latency: Configurable (default: 10 cycles)
+        
+        - **Divide**: `DIVD <dest>, <src1>, <src2>`
+          - Example: `DIVD F10, F0, F6` — F10 = F0 ÷ F6
+          - Latency: Configurable (default: 20 cycles)
+        
+        ### Syntax Rules
+        - **Register Names**: Use F-registers (F0, F2, F4, etc.) for floating-point values and R-registers (R1, R2, R3, etc.) for addresses
+        - **Memory Addressing**: Use `offset(base)` format where offset is an integer and base is a register
+        - **Comments**: Use `#` to add comments (everything after `#` is ignored)
+        - **Case Insensitive**: Instructions can be written in any case (LD, ld, Ld all work)
+        
+        ### Example Programs
+        ```assembly
+        # Simple RAW dependency
+        LD F6, 34(R2)
+        ADDD F8, F6, F2
+        
+        # Multiple dependencies
+        MULTD F0, F2, F4
+        ADDD F6, F0, F8
+        SUBD F10, F0, F6
+        
+        # Memory operations
+        LD F2, 45(R3)
+        MULTD F4, F2, F2
+        SD F4, 50(R3)
+        ```
+        
+        ### Tips
+        - Adjust latencies in **⚙️ Latency Configuration** to see how different execution times affect scheduling
+        - Use **Start** button to watch the pipeline execute automatically
+        - Check **Current Cycle Status** to see structural hazards in real-time
+        - The **Execution Timeline** shows a Gantt chart of instruction execution phases
+        """)
+
 def render_latency_config() -> None:
     """Render latency configuration panel."""
     with st.expander("⚙️ Latency Configuration", expanded=False):
