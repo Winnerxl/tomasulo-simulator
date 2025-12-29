@@ -105,7 +105,7 @@ class TomasuloSimulator:
         "Add": 2,
         "Sub": 2,
         "Mult": 10,
-        "Div": 20,
+        "Div": 40,
     }
 
     def __init__(
@@ -176,11 +176,14 @@ class TomasuloSimulator:
         return instr.op
 
     def _write_results(self) -> None:
-        ready = [
-            rs
-            for rs in self.reservation_stations
-            if rs.busy and rs.rs_type != "Store" and rs.result is not None
-        ]
+        ready = []
+        for rs in self.reservation_stations:
+            if rs.busy and rs.rs_type != "Store" and rs.result is not None:
+                instr = self.instructions[rs.instruction_idx or 0]
+                # CRITICAL FIX: Only write if execution finished BEFORE this cycle
+                if instr.exec_end is not None and instr.exec_end < self.cycle:
+                    ready.append(rs)
+
         if not ready:
             return
         ready.sort(
@@ -330,7 +333,7 @@ class TomasuloSimulator:
         elif op.startswith("MUL"):
             return self.latencies.get("Mult", 10)
         elif op.startswith("DIV"):
-            return self.latencies.get("Div", 20)
+            return self.latencies.get("Div", 40)
         else:
             # Default for unknown operations
             return 2
@@ -588,7 +591,7 @@ def render_instruction_editor() -> None:
         
         - **Divide**: `DIVD <dest>, <src1>, <src2>`
           - Example: `DIVD F10, F0, F6` — F10 = F0 ÷ F6
-          - Latency: Configurable (default: 20 cycles)
+          - Latency: Configurable (default: 40 cycles)
         
         ### Syntax Rules
         - **Register Names**: Use F-registers (F0, F2, F4, etc.) for floating-point values and R-registers (R1, R2, R3, etc.) for addresses
