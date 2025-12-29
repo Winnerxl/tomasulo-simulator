@@ -614,7 +614,7 @@ def render_instruction_editor() -> None:
         ```
         
         ### Tips
-        - Adjust latencies in **⚙️ Latency Configuration** to see how different execution times affect scheduling
+        - Adjust latencies in **Latency Configuration** to see how different execution times affect scheduling
         - Use **Start** button to watch the pipeline execute automatically
         - Check **Current Cycle Status** to see structural hazards in real-time
         - The **Execution Timeline** shows a Gantt chart of instruction execution phases
@@ -622,7 +622,7 @@ def render_instruction_editor() -> None:
 
 def render_latency_config() -> None:
     """Render latency configuration panel."""
-    with st.expander("⚙️ Latency Configuration", expanded=False):
+    with st.expander("Latency Configuration", expanded=False):
         st.caption("Configure execution latencies (in cycles) for each operation type")
         
         col1, col2, col3 = st.columns(3)
