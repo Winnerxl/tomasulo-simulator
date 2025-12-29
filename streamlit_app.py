@@ -277,7 +277,7 @@ class TomasuloSimulator:
             self._capture_operand(station, instr.base, position="j")
             station.A = instr.offset or 0
         if instr.src1:
-            target = "Vk" if station.rs_type == "Store" else "j"
+            target = "k" if station.rs_type == "Store" else "j"
             self._capture_operand(station, instr.src1, position=target)
         if instr.src2:
             self._capture_operand(station, instr.src2, position="k")
