@@ -156,8 +156,8 @@ class TomasuloSimulator:
             return False
         self.cycle += 1
         self.current_event = CycleEvent(cycle=self.cycle)
-        self._write_results()
         self._advance_executions()
+        self._write_results()
         self._issue_instruction()
         self.events.append(self.current_event)
         return True
